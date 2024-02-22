@@ -3,6 +3,7 @@
 - Correo: alu0101488998@ull.edu.es
 
 
+[![Coverage Status](https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct06-generics-solid-Nestor-DF/badge.svg)](https://coveralls.io/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct06-generics-solid-Nestor-DF)
 
 
 ## **Índice**
