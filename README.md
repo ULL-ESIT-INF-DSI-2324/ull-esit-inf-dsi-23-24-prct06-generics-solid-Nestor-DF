@@ -17,7 +17,82 @@ En esta práctica resolveré una serie de ejercicios de programación que me per
 
 
 
-## **Ejercicio 3**
+## **Ejercicio 1 - La mudanza**
+
+
+
+
+## **Ejercicio 2 - La mudanza**
+En este ejercicio se trata principalmente el **segundo principio de SOLID (Open-closed principle)**, ya que el sistema diseñado deberá permitir añadir nuevos formatos de generación de facturas **sin necesidad de modificar** el código ya implementado. Para conseguir esto, lo primero que hice fue crear una abstracción del problema principal, exportar facturas, para ello creé la siguiente interfaz:
+```ts
+export interface BillExporter {
+  exportBill(factura: Bill): string;
+}
+```
+Que recibe una factura (la definiré más adelante) y devolverá una cadena que será el text en el "nuevo formato".
+
+La clase `Bill` es la siguiente:
+```ts
+export class Bill {
+  public id: string;
+  public amount: number;
+  public dueDate: string;
+  public isPaid: boolean;
+
+  constructor(id: string, amount: number, dueDate: string) {
+    this.id = id;
+    this.amount = amount;
+    this.dueDate = dueDate;
+    this.isPaid = false;
+  }
+
+  markAsPaid(): void {
+    this.isPaid = true;
+  }
+
+  getDetails(): string {
+    const status: string = this.isPaid ? "Paid" : "Unpaid";
+    return `ID: ${this.id}\nAmount: $${this.amount}\nDue Date: ${this.dueDate}\nStatus: ${status}`;
+  }
+}
+```
+
+Una clase que almacena información como el id de la factura, la cantidad a pagar, fecha máxima para pagar y si ya está pagada o no. Y métodos como marcar que esté pagada y obtener la información de la factura.
+
+A continuación, creé las dos clases que se encargarán de implementar la lógica para exportar la factura en diferentes formatos (una por formato). Estas clases implementarán la interfaz `Billexporter` que definimos antes.
+```ts
+export class PDFexporter implements BillExporter {
+  exportBill(factura: Bill): string {
+    return `Exporting the bill ${factura.id} to PDF`;
+  }
+}
+
+export class HTMLexporter implements BillExporter {
+  exportBill(factura: Bill): string {
+    return `Exporting the bill ${factura.id} to HTML`;
+  }
+}
+```
+
+Por último, implementé la clase principal que se encargará de exportar las facturas haciendo uso de las clases que implementan la interfaz `Billexporter`, de esta manera, si se quisiera añadir un nuevo formato para exportar las facturas solo se tendría que crear una clase nueva que implementara la interfaz, **respetando así el Open-closed principle.**
+```ts
+export class BillManager {
+  constructor(private exporter: BillExporter) {}
+
+  exportBill(bill: Bill): string {
+    return this.exporter.exportBill(bill);
+  }
+
+  setExporter(exporter: BillExporter): void {
+    this.exporter = exporter;
+  }
+}
+```
+
+
+
+
+## **Ejercicio 3 - Gestor de ficheros**
 El principio que no se está siguiendo es el principio SOLID de Responsabilidad Única (Single Responsibility Principle) ya que `FileManager` tiene dos responsabilidades distintas: la lectura de archivos y la escritura de archivos.
 
 Una mejor forma de estructurar este código según SOLID sería crear dos interfaces `IFileReade` e `IFileWriter` para encapsular las responsabilidades de lectura y escritura de archivos y dos clases `FileReader` y `FileWriter` que implementan estas interfaces. Por último, la clase `FileManager` se encargaría únicamente de gestionar esas operaciones y no de su implementación.

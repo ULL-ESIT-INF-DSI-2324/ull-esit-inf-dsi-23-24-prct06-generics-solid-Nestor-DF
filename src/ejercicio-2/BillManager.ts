@@ -12,7 +12,7 @@ export class BillManager {
    * @param bill Is the bill to export
    * @returns The bill exported
    */
-  exportBill(bill: Bill): string {
+  export(bill: Bill): string {
     return this.exporter.exportBill(bill);
   }
 

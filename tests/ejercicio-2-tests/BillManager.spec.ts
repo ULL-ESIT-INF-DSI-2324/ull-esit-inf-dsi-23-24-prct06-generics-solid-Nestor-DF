@@ -13,7 +13,7 @@ describe("BillManager", () => {
 
     const result: string = "Exporting the bill 1 to PDF";
 
-    expect(billManager.exportBill(bill)).to.equal(result);
+    expect(billManager.export(bill)).to.equal(result);
   });
 
   it("should export the bill using the exporter", () => {
@@ -23,7 +23,7 @@ describe("BillManager", () => {
 
     const result: string = "Exporting the bill 1 to HTML";
 
-    expect(billManager.exportBill(bill)).to.equal(result);
+    expect(billManager.export(bill)).to.equal(result);
   });
 
   it("should set the exporter", () => {
@@ -34,6 +34,6 @@ describe("BillManager", () => {
 
     const result: string = "Exporting the bill 1 to PDF";
 
-    expect(billManager.exportBill(bill)).to.equal(result);
+    expect(billManager.export(bill)).to.equal(result);
   });
 });
