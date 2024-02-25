@@ -18,11 +18,114 @@ En esta práctica resolveré una serie de ejercicios de programación que me per
 
 
 ## **Ejercicio 1 - La mudanza**
+Ya que lo que necesitamos es guardar diferentes tipos de enseres, aunque estos comparten algo en común, lo primero que hice fue crear una interfaz como abstracción del tipo enser:
+```ts
+export interface Item {
+  name: string;
+  weight?: number;
+  fragile?: boolean;
+  value?: number;
+}
+```
+
+A continuación, creé un par de ejemplos de tipo enser para poder testear, es decir, clases que implementan la interfaz definida:
+```ts
+export class Furniture implements Item {
+  name: string;
+  weight?: number;
+  fragile?: boolean;
+  value?: number;
+  description: string;
+
+  constructor(name: string, description: string, weight?: number, fragile?: boolean, value?: number) {
+    this.name = name;
+    this.description = description;
+    this.weight = weight;
+    this.fragile = fragile;
+    this.value = value;
+  }
+}
+
+export class Appliance implements Item {
+  name: string;
+  weight?: number;
+  fragile?: boolean;
+  value?: number;
+  type: string;
+
+  constructor(name: string, type: string, weight?: number, fragile?: boolean, value?: number) {
+    this.name = name;
+    this.type = type;
+    this.weight = weight;
+    this.fragile = fragile;
+    this.value = value;
+  }
+}
+```
+
+El siguiente paso es crear la propia clase Caja la cual tendrá un **parámetro de tipo en su definición** restringiendo la forma de los objetos que podrá contender dicha Caja a diferentes tipos de enseres:
+```ts
+export class Box<T extends Item> {
+  private items: T[] = [];
+  public id: number;
+
+  constructor(id: number) {
+    this.id = id;
+  }
+
+  addItem(item: T): void {
+    this.items.push(item);
+  }
+
+  removeItem(name: string): void {
+    this.items = this.items.filter((item) => item.name !== name);
+  }
+
+  findItems(filters: { name?: string; weight?: number; fragile?: boolean; value?: number }): string {
+    const result = this.items.filter(
+      (element) =>
+        (!filters.name || element.name.includes(filters.name)) &&
+        (!filters.weight || element.weight === filters.weight) &&
+        (filters.fragile === undefined || element.fragile === filters.fragile) &&
+        (!filters.value || element.value === filters.value)
+    );
+    return result.map((item) => item.name).join(", ");
+  }
+
+  listItems(): string {
+    const result = `${this.id}: ${this.items.map((item) => item.name).join(", ")}`;
+    return result;
+  }
+}
+```
+
+Finalmente, creé una clase adicional para poder gestionar las cajas de la mudanza con algunos métodos sencillos:
+```ts
+export class MovingManager<T extends Item> {
+  private boxes: Box<T>[] = [];
+
+  addBox(box: Box<T>): void {
+    this.boxes.push(box);
+  }
+
+  removeBox(id: number): void {
+    this.boxes = this.boxes.filter((box) => box.id !== id);
+  }
+
+  getBoxesCount(): number {
+    return this.boxes.length;
+  }
+
+  BoxesString(): string {
+    return this.boxes.map((box) => box.listItems()).join("\n");
+  }
+}
+```
 
 
 
 
-## **Ejercicio 2 - La mudanza**
+## **Ejercicio 2 - Facturas en diferentes formatos**
 En este ejercicio se trata principalmente el **segundo principio de SOLID (Open-closed principle)**, ya que el sistema diseñado deberá permitir añadir nuevos formatos de generación de facturas **sin necesidad de modificar** el código ya implementado. Para conseguir esto, lo primero que hice fue crear una abstracción del problema principal, exportar facturas, para ello creé la siguiente interfaz:
 ```ts
 export interface BillExporter {
