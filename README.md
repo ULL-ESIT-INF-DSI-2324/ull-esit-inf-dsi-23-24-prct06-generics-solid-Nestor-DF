@@ -7,6 +7,16 @@
 
 
 ## **Índice**
+- [Práctica 6 - Clases e interfaces genéricas. Principios SOLID](#práctica-6---clases-e-interfaces-genéricas-principios-solid)
+  - [**Índice**](#índice)
+  - [**Introducción**](#introducción)
+  - [**Ejercicio 1 - La mudanza**](#ejercicio-1---la-mudanza)
+  - [**Ejercicio 2 - Facturas en diferentes formatos**](#ejercicio-2---facturas-en-diferentes-formatos)
+  - [**Ejercicio 3 - Gestor de ficheros**](#ejercicio-3---gestor-de-ficheros)
+  - [**Ejercicio 4 - Impresoras y escáneres**](#ejercicio-4---impresoras-y-escáneres)
+  - [**Ejercicio 5 - Servicio de mensajería**](#ejercicio-5---servicio-de-mensajería)
+  - [**Conclusiones**](#conclusiones)
+  - [**Recursos Empleados**](#recursos-empleados)
 
 
 
