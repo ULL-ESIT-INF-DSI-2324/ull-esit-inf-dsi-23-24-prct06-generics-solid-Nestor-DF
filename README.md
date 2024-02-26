@@ -190,14 +190,14 @@ export class HTMLexporter implements BillExporter {
 
 Por último, implementé la clase principal que se encargará de exportar las facturas haciendo uso de las clases que implementan la interfaz `Billexporter`, de esta manera, si se quisiera añadir un nuevo formato para exportar las facturas solo se tendría que crear una clase nueva que implementara la interfaz, **respetando así el Open-closed principle.**
 ```ts
-export class BillManager {
-  constructor(private exporter: BillExporter) {}
+export class BillManager<T extends Billexporter> {
+  constructor(private exporter: T) {}
 
   exportBill(bill: Bill): string {
     return this.exporter.exportBill(bill);
   }
 
-  setExporter(exporter: BillExporter): void {
+  setExporter(exporter: T): void {
     this.exporter = exporter;
   }
 }
