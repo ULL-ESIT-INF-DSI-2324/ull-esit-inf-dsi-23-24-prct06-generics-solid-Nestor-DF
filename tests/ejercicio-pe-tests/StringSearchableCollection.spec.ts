@@ -5,6 +5,10 @@ import { StringSearchableCollection } from "../../src/ejercicio-pe/StringSearcha
 describe("StringSearchableCollection", () => {
   const numSearchColl = new StringSearchableCollection(["hi", "hello", "halo", "meow"]);
 
+  it("should get an item", () => {
+    expect(numSearchColl.getItem(2)).to.equal("halo");
+  });
+
   it("should add a item", () => {
     numSearchColl.addItem("the cat says meow");
     expect(numSearchColl.getCollectionString()).to.equal("hi,hello,halo,meow,the cat says meow");

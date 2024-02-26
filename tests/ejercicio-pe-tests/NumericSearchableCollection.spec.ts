@@ -5,6 +5,10 @@ import { NumericSearchableCollection } from "../../src/ejercicio-pe/NumericSearc
 describe("NumericSearchableCollection", () => {
   const numSearchColl = new NumericSearchableCollection([1, 2, 3, 3, 4, 5, 6, 7, 9, 9, 9]);
 
+  it("should get an item", () => {
+    expect(numSearchColl.getItem(0)).to.equal(1);
+  });
+
   it("should add a item", () => {
     numSearchColl.addItem(10);
     expect(numSearchColl.getCollectionString()).to.equal("1,2,3,3,4,5,6,7,9,9,9,10");
