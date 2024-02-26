@@ -15,6 +15,7 @@
   - [**Ejercicio 3 - Gestor de ficheros**](#ejercicio-3---gestor-de-ficheros)
   - [**Ejercicio 4 - Impresoras y escáneres**](#ejercicio-4---impresoras-y-escáneres)
   - [**Ejercicio 5 - Servicio de mensajería**](#ejercicio-5---servicio-de-mensajería)
+  - [**Ejercicio PE**](#ejercicio-pe)
   - [**Conclusiones**](#conclusiones)
   - [**Recursos Empleados**](#recursos-empleados)
 
@@ -341,6 +342,70 @@ xeport class Notifier {
   }
 }
 ```
+
+
+
+
+## **Ejercicio PE**
+En primer lugar, creé las interfaces genéricas `Collectable` y `Searchable` con los métodos que se pedían en el enunciado:
+```ts
+export interface Collectable<T> {
+  addItem(item: T): void;
+  getItem(index: number): T | undefined;
+  removeItem(): void;
+  getNumberOfItems(): number;
+}
+
+export interface Searchable<T> {
+  search(item: T): T[];
+}
+```
+
+A continuación, implementé dichas interfaces en una **clase abstracta** `SearchableCollection` ya que dejo como **abstracto** el método **search** para que lo puedan implementar las subclases correspondientes. Los métodos de `Collectable` son todos implementados en la clase abstracta:
+```ts
+export abstract class SearchableCollection<T> implements Collectable<T>, Searchable<T> {
+  constructor(protected items: T[]) {}
+
+  addItem(item: T): void {
+    this.items.push(item);
+  }
+
+  getItem(index: number): T | undefined {
+    return this.items[index];
+  }
+
+  removeItem(): void {
+    this.items.pop();
+  }
+
+  getNumberOfItems(): number {
+    return this.items.length;
+  }
+
+  getCollectionString(): string {
+    return this.items.toString();
+  }
+
+  abstract search(item: T): T[];
+}
+```
+
+Por último, creé las **subclases** que **heredarán** de la **clase abstracta** para implementar el método search. Una restringe el tipo genérico a **number** y la otra a **string**:
+```ts
+export class NumericSearchableCollection extends SearchableCollection<number> {
+  search(item: number): number[] {
+    return this.items.filter((num) => num === item);
+  }
+}
+
+export class StringSearchableCollection extends SearchableCollection<string> {
+  search(substring: string): string[] {
+    const regex = new RegExp(substring, "d");
+    return this.items.filter((item) => regex.test(item));
+  }
+}
+```
+En `NumericSearchableCollection` se buscan las ocurrencias de un número dado mientras que en `StringSearchableCollection` se buscan las cadenas que contengan una subcadena dada.
 
 
 

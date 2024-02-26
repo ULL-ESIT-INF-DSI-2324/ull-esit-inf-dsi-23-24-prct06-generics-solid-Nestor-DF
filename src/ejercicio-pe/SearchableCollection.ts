@@ -47,5 +47,9 @@ export abstract class SearchableCollection<T> implements Collectable<T>, Searcha
     return this.items.toString();
   }
 
+  /**
+   * Abstract method for searching 
+   * @param item Item to search
+   */
   abstract search(item: T): T[];
 }
